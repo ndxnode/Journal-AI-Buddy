@@ -9,4 +9,9 @@ data class JournalEntry(
     val title: String,
     val content: String,
     val timestamp: Long
+
+    // was thinking adding a daily habits list
+    // or that can be another entity and can be linked by timestamp
+    // so journal entries are once per day
+    // with a section for thoughts
 )

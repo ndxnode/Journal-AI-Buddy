@@ -1,5 +1,6 @@
 package com.example.journalaibuddy.dao
 
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
@@ -21,4 +22,7 @@ interface JournalEntryDao {
     @Query("DELETE FROM journal_entries WHERE id = :id")
     fun deleteById(id: Int)
 
+    // check if it works
+    @Delete
+    fun delete(entry: JournalEntry)
 }
