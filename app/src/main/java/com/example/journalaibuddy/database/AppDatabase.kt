@@ -6,6 +6,6 @@ import com.example.journalaibuddy.dao.JournalEntryDao
 import com.example.journalaibuddy.model.JournalEntry
 
 @Database(entities = [JournalEntry::class], version = 1)
-abstract class AppDataBase: RoomDatabase() {
+abstract class AppDatabase: RoomDatabase() {
     abstract fun journalEntryDao(): JournalEntryDao
 }
