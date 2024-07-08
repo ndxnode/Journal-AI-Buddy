@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "12721037852",
+    "project_id": "journal-ai-buddy",
+    "storage_bucket": "journal-ai-buddy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:12721037852:android:d87b084b90ac46b8bdb5d9",
+        "android_client_info": {
+          "package_name": "com.example.journalaibuddy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdKW2xwr0N6QgUEY5fWknf_jVhYVH9m4I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
