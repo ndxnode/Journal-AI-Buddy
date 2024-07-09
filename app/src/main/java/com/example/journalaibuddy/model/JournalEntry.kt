@@ -2,16 +2,23 @@ package com.example.journalaibuddy.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.time.LocalDate
+import androidx.room.TypeConverters
+import com.example.journalaibuddy.dao.LocalDateConverter
 
 @Entity(tableName = "journal_entries")
 data class JournalEntry(
     @PrimaryKey(autoGenerate = true) val id: Int,
     val title: String,
     val content: String,
-    val timestamp: Long
-
-    // was thinking adding a daily habits list
-    // or that can be another entity and can be linked by timestamp
-    // so journal entries are once per day
-    // with a section for thoughts
+    @TypeConverters(LocalDateConverter::class)
+    val date: LocalDate,
+    val isBookmarked: Boolean,
+    val imagePath: String?,
+    val mood: Mood,
+    val audioPath: String? //Ensure you handle permissions for reading and writing to storage correctly.
 )
+
+enum class Mood {
+    Happy, Sad, Excited, Bored, Neutral, Depressed
+}

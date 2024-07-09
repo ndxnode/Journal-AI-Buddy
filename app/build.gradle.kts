@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.journalaibuddy"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -54,6 +54,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.firebase.auth.ktx)
     val room_version = "2.6.1"
 
     implementation("androidx.room:room-runtime:$room_version")
