@@ -1,5 +1,6 @@
 package com.example.journalaibuddy.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
@@ -8,21 +9,20 @@ import com.example.journalaibuddy.model.JournalEntry
 
 interface JournalEntryDao {
     @Query("SELECT * FROM journal_entries")
-    fun getAll(): List<JournalEntry>
+    fun getAll(): LiveData<List<JournalEntry>> // livedata observes data changes
 
     @Query("SELECT * FROM journal_entries WHERE id = :id")
-    fun getById(id: Int): JournalEntry
+    fun getById(id: Int): LiveData<JournalEntry>
 
     @Insert
-    fun insert(entry: JournalEntry)
+    fun insert(entry: JournalEntry): Long
 
     @Update
-    fun update(entry: JournalEntry)
+    fun update(entry: JournalEntry): Int
 
     @Query("DELETE FROM journal_entries WHERE id = :id")
     fun deleteById(id: Int)
 
-    // check if it works
     @Delete
-    fun delete(entry: JournalEntry)
+    fun delete(entry: JournalEntry): Int
 }
