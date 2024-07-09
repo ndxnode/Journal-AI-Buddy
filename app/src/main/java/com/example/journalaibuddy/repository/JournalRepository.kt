@@ -5,7 +5,7 @@ import com.example.journalaibuddy.dao.JournalEntryDao
 import com.example.journalaibuddy.model.JournalEntry
 
 class JournalRepository(private val journalEntryDao: JournalEntryDao) {
-    val allEntries: List<JournalEntry> = journalEntryDao.getAll()
+    val allEntries: LiveData<List<JournalEntry>> = journalEntryDao.getAll()
 
     suspend fun insert(entry: JournalEntry) {
         journalEntryDao.insert(entry)

@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 
 class JournalViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: JournalRepository
-    val allEntries: List<JournalEntry>
+    val allEntries: LiveData<List<JournalEntry>>
 
     init {
         val db = Room.databaseBuilder(
@@ -37,4 +37,11 @@ class JournalViewModel(application: Application) : AndroidViewModel(application)
     fun delete(entry: JournalEntry) = viewModelScope.launch {
         repository.delete(entry)
     }
+    fun toggleBookmark(entry: JournalEntry) = viewModelScope.launch {
+        val updatedEntry = entry.copy(isBookmarked = !entry.isBookmarked)
+        repository.update(updatedEntry)
+    }
+
+    fun editEntry(entry: JournalEntry) = update(entry)
+
 }
