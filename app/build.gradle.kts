@@ -62,6 +62,7 @@ dependencies {
     annotationProcessor("androidx.room:room-compiler:$room_version")
 
     implementation(platform("com.google.firebase:firebase-bom:33.1.1"))
+    implementation("com.google.firebase:firebase-auth")
 
     implementation("androidx.navigation:navigation-compose:2.4.0-alpha10")
     implementation ("androidx.datastore:datastore-preferences:1.0.0")

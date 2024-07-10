@@ -46,7 +46,9 @@ fun MainScreen(viewModel: JournalViewModel) {
             }
         }
     ) {
-        LazyColumn {
+        LazyColumn(
+            modifier = Modifier.padding(it)
+        ) {
             items(journalEntries.size) { index ->
                 JournalEntryCard(journalEntries[index], viewModel)
             }

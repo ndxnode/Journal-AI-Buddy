@@ -33,16 +33,16 @@ import kotlinx.coroutines.launch
 fun WelcomeScreen(viewModel: WelcomeViewModel, onLoginSuccess: () -> Unit) {
     val pageCount = 4
     val pagerState = rememberPagerState(pageCount = { pageCount })
-    val corountineScope = rememberCoroutineScope()
+    val coroutineScope = rememberCoroutineScope()
 
     HorizontalPager(
         state = pagerState,
         modifier = Modifier.fillMaxSize()
     ) { page ->
         when (page) {
-            0 -> IntroductionPage { corountineScope.launch { pagerState.animateScrollToPage(1) } }
-            1 -> NotificationSettingsPage(viewModel) { corountineScope.launch { pagerState.animateScrollToPage(2) } }
-            2 -> LockJournalPage(viewModel) { corountineScope.launch { pagerState.animateScrollToPage(3) } }
+            0 -> IntroductionPage { coroutineScope.launch { pagerState.animateScrollToPage(1) } }
+            1 -> NotificationSettingsPage(viewModel) { coroutineScope.launch { pagerState.animateScrollToPage(2) } }
+            2 -> LockJournalPage(viewModel) { coroutineScope.launch { pagerState.animateScrollToPage(3) } }
             3 -> LoginScreen(onLoginSuccess)
         }
     }
