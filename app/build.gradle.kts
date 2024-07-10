@@ -56,8 +56,8 @@ android {
 dependencies {
     implementation(libs.firebase.auth.ktx)
     implementation(libs.androidx.runtime.livedata)
-    val room_version = "2.6.1"
 
+    val room_version = "2.6.1"
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
 
@@ -77,8 +77,9 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(libs.androidx.room.common)
-    implementation(libs.androidx.room.compiler)
+    //implementation(libs.androidx.room.common)
+    //implementation(libs.androidx.room.compiler)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
