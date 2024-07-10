@@ -43,9 +43,5 @@ fun AppNavigation() {
 }
 
 fun isFirstLaunch(): Boolean {
-    // Check if this is the first launch of the app
-    // If so, show the welcome screen
-    // If not, show the main screen
-    // share preferences
-    return true
+
 }
