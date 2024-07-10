@@ -1,11 +1,13 @@
 package com.example.journalaibuddy.dao
 
 import androidx.lifecycle.LiveData
+import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.example.journalaibuddy.model.JournalEntry
+import java.time.LocalDate
 
 interface JournalEntryDao {
     @Query("SELECT * FROM journal_entries")
@@ -25,4 +27,9 @@ interface JournalEntryDao {
 
     @Delete
     fun delete(entry: JournalEntry): Int
+
+
+    @Query("SELECT * FROM journal_entries WHERE date = :date")
+    suspend fun findEntryByDate(date: LocalDate?): JournalEntry?
+
 }
