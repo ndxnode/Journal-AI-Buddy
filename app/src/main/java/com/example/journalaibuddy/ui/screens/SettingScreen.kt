@@ -29,88 +29,83 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
-class SettingScreen {
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SettingsScreen(viewModel: SettingsViewModel) {
+    var isDarkThemeEnabled by remember { mutableStateOf(false) }
+    var areNotificationsEnabled by remember { mutableStateOf(false) }
 
-    @OptIn(ExperimentalMaterial3Api::class)
-    @Composable
-    fun SettingsScreen(viewModel: SettingsViewModel) {
-        var isDarkThemeEnabled by remember { mutableStateOf(false) }
-        var areNotificationsEnabled by remember { mutableStateOf(false) }
-
-        Scaffold(
-            topBar = {
-                TopAppBar(title = { Text("Settings") })
-            }
+    Scaffold(
+        topBar = {
+            TopAppBar(title = { Text("Settings") })
+        }
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize().padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            Column(
-                modifier = Modifier.fillMaxSize().padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(20.dp)
+            Text("Hi, Name", style = MaterialTheme.typography.titleMedium)
+            // get name from firebase
+
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text("Enable Dark Theme")
+                Switch(
+                    checked = isDarkThemeEnabled,
+                    onCheckedChange = {
+                        isDarkThemeEnabled = it
+                        viewModel.toggleTheme(isDarkThemeEnabled)
+                    }
+                )
+            }
+
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text("Notifications")
+                Switch(
+                    checked = areNotificationsEnabled,
+                    onCheckedChange = {
+                        areNotificationsEnabled = it
+                        viewModel.toggleNotifications(areNotificationsEnabled)
+                    }
+                )
+            }
+
+            Button(
+                onClick = { viewModel.enableAppLock() },
+                modifier = Modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(16.dp)
             ) {
-                Text("Hi, Name", style = MaterialTheme.typography.titleMedium)
-                // get name from firebase
+                Icon(Icons.Filled.Lock, contentDescription = "Lock App")
+                Spacer(Modifier.width(8.dp))
+                Text("Lock App with Biometrics/Passcode")
+            }
 
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text("Enable Dark Theme")
-                    Switch(
-                        checked = isDarkThemeEnabled,
-                        onCheckedChange = {
-                            isDarkThemeEnabled = it
-                            viewModel.toggleTheme(isDarkThemeEnabled)
-                        }
-                    )
-                }
-
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text("Notifications")
-                    Switch(
-                        checked = areNotificationsEnabled,
-                        onCheckedChange = {
-                            areNotificationsEnabled = it
-                            viewModel.toggleNotifications(areNotificationsEnabled)
-                        }
-                    )
-                }
-
-                Button(
-                    onClick = { viewModel.enableAppLock() },
-                    modifier = Modifier.fillMaxWidth(),
-                    contentPadding = PaddingValues(16.dp)
-                ) {
-                    Icon(Icons.Filled.Lock, contentDescription = "Lock App")
-                    Spacer(Modifier.width(8.dp))
-                    Text("Lock App with Biometrics/Passcode")
-                }
-
-                Button(
-                    onClick = { viewModel.logOut() },
-                    modifier = Modifier.fillMaxWidth(),
-                    contentPadding = PaddingValues(16.dp)
-                ) {
-                    Icon(Icons.Filled.ExitToApp, contentDescription = "Log Out")
-                    Spacer(Modifier.width(8.dp))
-                    Text("Log Out")
-                }
+            Button(
+                onClick = { viewModel.logOut() },
+                modifier = Modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(16.dp)
+            ) {
+                Icon(Icons.Filled.ExitToApp, contentDescription = "Log Out")
+                Spacer(Modifier.width(8.dp))
+                Text("Log Out")
             }
         }
     }
+}
 
-    class SettingsViewModel {
-        fun toggleTheme(isDark: Boolean) {
-            // Toggle the theme setting
-        }
-
-        fun toggleNotifications(enabled: Boolean) {
-            // Toggle the notifications setting
-        }
-
-        fun enableAppLock() {
-            // Logic to enable app lock
-        }
-
-        fun logOut() {
-            // Logic for logging out
-        }
+class SettingsViewModel {
+    fun toggleTheme(isDark: Boolean) {
+        // Toggle the theme setting
     }
 
+    fun toggleNotifications(enabled: Boolean) {
+        // Toggle the notifications setting
+    }
 
+    fun enableAppLock() {
+        // Logic to enable app lock
+    }
+
+    fun logOut() {
+        // Logic for logging out
+    }
 }
