@@ -25,6 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
 import com.example.journalaibuddy.model.JournalEntry
 import com.example.journalaibuddy.viewmodel.JournalViewModel
 
@@ -32,8 +33,10 @@ class MainScreen {
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun MainScreen(viewModel: JournalViewModel) {
+    fun MainScreenView(viewModel: JournalViewModel) {
         val journalEntries by viewModel.allEntries.observeAsState(initial = emptyList()) // convert livedata from viewmodel so compose func can use it
+        val navController = rememberNavController() // navigation controller
+
 
         Scaffold(
             topBar = { TopAppBar(title = { Text("Journal AI Buddy") }) },
@@ -44,6 +47,7 @@ class MainScreen {
                 }
             }
         ) {
+
             LazyColumn {
                 items(journalEntries.size) { index ->
                     JournalEntryCard(journalEntries[index], viewModel)
