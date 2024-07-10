@@ -20,10 +20,12 @@ import androidx.compose.material3.Switch
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -31,22 +33,23 @@ import androidx.lifecycle.ViewModel
 fun WelcomeScreen(viewModel: WelcomeViewModel, onLoginSuccess: () -> Unit) {
     val pageCount = 4
     val pagerState = rememberPagerState(pageCount = { pageCount })
+    val corountineScope = rememberCoroutineScope()
 
     HorizontalPager(
         state = pagerState,
         modifier = Modifier.fillMaxSize()
     ) { page ->
         when (page) {
-            0 -> IntroductionPage()
-            1 -> NotificationSettingsPage(viewModel)
-            2 -> LockJournalPage(viewModel)
+            0 -> IntroductionPage { corountineScope.launch { pagerState.animateScrollToPage(1) } }
+            1 -> NotificationSettingsPage(viewModel) { corountineScope.launch { pagerState.animateScrollToPage(2) } }
+            2 -> LockJournalPage(viewModel) { corountineScope.launch { pagerState.animateScrollToPage(3) } }
             3 -> LoginScreen(onLoginSuccess)
         }
     }
 }
 
 @Composable
-fun IntroductionPage() {
+fun IntroductionPage(onContinueClicked: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -66,7 +69,7 @@ fun IntroductionPage() {
             modifier = Modifier.padding(top = 16.dp)
         )
         Button(
-            onClick = { /* Navigate to next page or action */ },
+            onClick = { onContinueClicked() },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 32.dp),
@@ -78,7 +81,7 @@ fun IntroductionPage() {
 }
 
 @Composable
-fun NotificationSettingsPage(viewModel: WelcomeViewModel) {
+fun NotificationSettingsPage(viewModel: WelcomeViewModel, onContinueClicked: () -> Unit) {
     var enableNotifications by remember { mutableStateOf(false) }
 
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
@@ -87,14 +90,18 @@ fun NotificationSettingsPage(viewModel: WelcomeViewModel) {
             checked = enableNotifications,
             onCheckedChange = { enableNotifications = it }
         )
-        Button(onClick = { viewModel.enableNotifications() }) {
+        Button(onClick = {
+            viewModel.enableNotifications()
+            onContinueClicked()
+        }
+        ) {
             Text("Continue")
         }
     }
 }
 
 @Composable
-fun LockJournalPage(viewModel: WelcomeViewModel) {
+fun LockJournalPage(viewModel: WelcomeViewModel, onContinueClicked: () -> Unit) {
     var enableLock by remember { mutableStateOf(false) }
 
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
@@ -103,7 +110,10 @@ fun LockJournalPage(viewModel: WelcomeViewModel) {
             checked = enableLock,
             onCheckedChange = { enableLock = it }
         )
-        Button(onClick = { viewModel.enableLock() }) {
+        Button(onClick = {
+            viewModel.enableLock()
+            onContinueClicked()
+        }) {
             Text("Continue")
         }
     }

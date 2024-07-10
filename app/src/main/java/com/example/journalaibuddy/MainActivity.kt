@@ -43,5 +43,5 @@ fun AppNavigation() {
 }
 
 fun isFirstLaunch(): Boolean {
-
+    return true
 }
