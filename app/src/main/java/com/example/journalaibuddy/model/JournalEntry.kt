@@ -8,7 +8,7 @@ import com.example.journalaibuddy.dao.LocalDateConverter
 
 @Entity(tableName = "journal_entries")
 data class JournalEntry(
-    @PrimaryKey(autoGenerate = true) val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val title: String,
     val content: String,
     @TypeConverters(LocalDateConverter::class)

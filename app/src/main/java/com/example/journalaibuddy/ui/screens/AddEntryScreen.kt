@@ -1,5 +1,6 @@
 package com.example.journalaibuddy.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -45,6 +46,7 @@ fun AddEntryScreen(onSave: (JournalEntry) -> Unit, onCancel: () -> Unit) {
                     imagePath = null,
                     audioPath = null
                 )
+                Log.d("AddEntryScreen", "Saving entry: $newEntry")
                 onSave(newEntry)
             }) {
                 Text("Save")

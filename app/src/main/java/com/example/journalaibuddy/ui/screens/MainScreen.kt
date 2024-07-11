@@ -1,5 +1,6 @@
 package com.example.journalaibuddy.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -19,7 +20,8 @@ import com.google.firebase.auth.FirebaseAuth
 @Composable
 fun MainScreen(viewModel: JournalViewModel, navController: NavController) {
     val journalEntries by viewModel.filteredEntries.observeAsState(initial = emptyList())
-    val user = FirebaseAuth.getInstance().currentUser
+
+    Log.d("MainScreen", "Observed entries: $journalEntries")
 
     Scaffold(
         topBar = {

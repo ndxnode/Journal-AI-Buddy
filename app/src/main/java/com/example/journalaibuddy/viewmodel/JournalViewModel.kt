@@ -5,10 +5,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import androidx.room.Room
 import com.example.journalaibuddy.database.AppDatabase
 import com.example.journalaibuddy.model.JournalEntry
 import com.example.journalaibuddy.repository.JournalRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -33,46 +33,46 @@ class JournalViewModel(application: Application) : AndroidViewModel(application)
         allEntries = repository.allEntries
     }
 
-    fun insert(entry: JournalEntry) = viewModelScope.launch {
+    fun insert(entry: JournalEntry) = viewModelScope.launch(Dispatchers.IO) {
         repository.insert(entry)
     }
 
-    fun update(entry: JournalEntry) = viewModelScope.launch {
+    fun update(entry: JournalEntry) = viewModelScope.launch(Dispatchers.IO) {
         repository.update(entry)
     }
 
-    fun delete(entry: JournalEntry) = viewModelScope.launch {
+    fun delete(entry: JournalEntry) = viewModelScope.launch(Dispatchers.IO) {
         repository.delete(entry)
     }
-    fun toggleBookmark(entry: JournalEntry) = viewModelScope.launch {
+
+    fun toggleBookmark(entry: JournalEntry) = viewModelScope.launch(Dispatchers.IO) {
         val updatedEntry = entry.copy(isBookmarked = !entry.isBookmarked)
         repository.update(updatedEntry)
     }
 
     fun editEntry(entry: JournalEntry) = update(entry)
 
-
     fun getEntryForDate(date: LocalDate) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val entry = repository.getEntryForDate(date)
             _selectedEntry.emit(entry)
         }
     }
 
     fun filterEntries(filter: String) {
-        val entries = allEntries.value ?: return
-        val filteredList = when (filter) {
-            "This Week" -> entries.filter { it.date.isAfter(LocalDate.now().minus(7, ChronoUnit.DAYS)) }
-            "Last Week" -> entries.filter {
-                val lastWeekStart = LocalDate.now().minus(14, ChronoUnit.DAYS)
-                val lastWeekEnd = LocalDate.now().minus(7, ChronoUnit.DAYS)
-                it.date.isAfter(lastWeekStart) && it.date.isBefore(lastWeekEnd)
+        viewModelScope.launch(Dispatchers.Default) {
+            val entries = allEntries.value ?: return@launch
+            val filteredList = when (filter) {
+                "This Week" -> entries.filter { it.date.isAfter(LocalDate.now().minus(7, ChronoUnit.DAYS)) }
+                "Last Week" -> entries.filter {
+                    val lastWeekStart = LocalDate.now().minus(14, ChronoUnit.DAYS)
+                    val lastWeekEnd = LocalDate.now().minus(7, ChronoUnit.DAYS)
+                    it.date.isAfter(lastWeekStart) && it.date.isBefore(lastWeekEnd)
+                }
+                "Bookmarked" -> entries.filter { it.isBookmarked }
+                else -> entries
             }
-            "Bookmarked" -> entries.filter { it.isBookmarked }
-            else -> entries
+            _filteredEntries.postValue(filteredList)
         }
-        _filteredEntries.value = filteredList
     }
-
-
 }

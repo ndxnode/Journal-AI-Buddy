@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.example.journalaibuddy.model.JournalEntry
@@ -11,13 +12,13 @@ import java.time.LocalDate
 
 @Dao
 interface JournalEntryDao {
-    @Query("SELECT * FROM journal_entries")
-    fun getAll(): LiveData<List<JournalEntry>> // livedata observes data changes
+    @Query("SELECT * FROM journal_entries ORDER BY date DESC")
+    fun getAll(): LiveData<List<JournalEntry>>
 
     @Query("SELECT * FROM journal_entries WHERE id = :id")
     fun getById(id: Int): LiveData<JournalEntry>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(entry: JournalEntry): Long
 
     @Update

@@ -72,6 +72,7 @@ dependencies {
 
     implementation("androidx.compose.foundation:foundation:1.4.0")
 
+    implementation("com.facebook.stetho:stetho:1.6.0")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
