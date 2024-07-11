@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -44,26 +45,54 @@ fun MainScreenWithBottomNav(viewModel: JournalViewModel) {
     }
 }
 
+
 @Composable
 fun BottomNavigationBar(navController: NavController) {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+
     NavigationBar {
         NavigationBarItem(
             icon = { Icon(Icons.Filled.Home, contentDescription = "Main") },
             label = { Text("Main") },
-            selected = navController.currentDestination?.route == "main",
-            onClick = { navController.navigate("main") }
+            selected = currentRoute == "main",
+            onClick = {
+                navController.navigate("main") {
+                    popUpTo(navController.graph.startDestinationId) {
+                        saveState = true
+                    }
+                    launchSingleTop = true
+                    restoreState = true
+                }
+            }
         )
         NavigationBarItem(
             icon = { Icon(Icons.Filled.DateRange, contentDescription = "Calendar") },
             label = { Text("Calendar") },
-            selected = navController.currentDestination?.route == "calendar",
-            onClick = { navController.navigate("calendar") }
+            selected = currentRoute == "calendar",
+            onClick = {
+                navController.navigate("calendar") {
+                    popUpTo(navController.graph.startDestinationId) {
+                        saveState = true
+                    }
+                    launchSingleTop = true
+                    restoreState = true
+                }
+            }
         )
         NavigationBarItem(
             icon = { Icon(Icons.Filled.Settings, contentDescription = "Settings") },
             label = { Text("Settings") },
-            selected = navController.currentDestination?.route == "settings",
-            onClick = { navController.navigate("settings") }
+            selected = currentRoute == "settings",
+            onClick = {
+                navController.navigate("settings") {
+                    popUpTo(navController.graph.startDestinationId) {
+                        saveState = true
+                    }
+                    launchSingleTop = true
+                    restoreState = true
+                }
+            }
         )
     }
 }
