@@ -76,7 +76,7 @@ fun CalendarDay(date: LocalDate, selectedDate: MutableState<LocalDate?>, showEnt
         modifier = Modifier
             .padding(4.dp)
             .aspectRatio(1f)
-            .background(if (isSelected) Color.Cyan else Color.Transparent)
+            .background(if (isSelected) Color.LightGray else Color.Transparent)
             .clickable {
                 selectedDate.value = date
                 showEntryDetails(date)

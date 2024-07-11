@@ -10,13 +10,14 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.journalaibuddy.model.JournalEntry
 import com.example.journalaibuddy.viewmodel.JournalViewModel
 import com.google.firebase.auth.FirebaseAuth
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(viewModel: JournalViewModel) {
+fun MainScreen(viewModel: JournalViewModel, navController: NavController) {
     val journalEntries by viewModel.filteredEntries.observeAsState(initial = emptyList())
     val user = FirebaseAuth.getInstance().currentUser
 
@@ -28,7 +29,7 @@ fun MainScreen(viewModel: JournalViewModel) {
         },
         floatingActionButtonPosition = FabPosition.End,
         floatingActionButton = {
-            FloatingActionButton(onClick = { /* Navigate to add entry screen */ }) {
+            FloatingActionButton(onClick = { navController.navigate("addEntry") }) {
                 Icon(Icons.Filled.Add, contentDescription = "Add Entry")
             }
         }

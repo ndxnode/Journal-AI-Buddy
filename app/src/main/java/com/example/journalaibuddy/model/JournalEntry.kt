@@ -15,10 +15,5 @@ data class JournalEntry(
     val date: LocalDate,
     val isBookmarked: Boolean,
     val imagePath: String?,
-    val mood: Mood,
     val audioPath: String? //Ensure you handle permissions for reading and writing to storage correctly.
 )
-
-enum class Mood {
-    Happy, Sad, Excited, Bored, Neutral, Depressed
-}

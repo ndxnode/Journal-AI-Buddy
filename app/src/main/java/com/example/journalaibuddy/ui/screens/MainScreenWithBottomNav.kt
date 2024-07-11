@@ -32,7 +32,7 @@ fun MainScreenWithBottomNav(viewModel: JournalViewModel) {
             startDestination = "main",
             modifier = Modifier.padding(paddingValues)
         ) {
-            composable("main") { MainScreen(viewModel) }
+            composable("main") { MainScreen(viewModel, navController) }
             composable("calendar") { CalendarScreen(viewModel) }
             composable("settings") {
                 val context = LocalContext.current
@@ -40,6 +40,15 @@ fun MainScreenWithBottomNav(viewModel: JournalViewModel) {
                     factory = SettingsViewModelFactory(context.applicationContext as Application)
                 )
                 SettingsScreen(settingsViewModel)
+            }
+            composable("addEntry") {
+                AddEntryScreen(
+                    onSave = { entry ->
+                        viewModel.insert(entry)
+                        navController.popBackStack()
+                    },
+                    onCancel = { navController.popBackStack() }
+                )
             }
         }
     }
