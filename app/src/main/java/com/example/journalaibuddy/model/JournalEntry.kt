@@ -13,7 +13,5 @@ data class JournalEntry(
     val content: String,
     @TypeConverters(LocalDateConverter::class)
     val date: LocalDate,
-    val isBookmarked: Boolean,
-    val imagePath: String?,
-    val audioPath: String? //Ensure you handle permissions for reading and writing to storage correctly.
+    val isBookmarked: Boolean
 )

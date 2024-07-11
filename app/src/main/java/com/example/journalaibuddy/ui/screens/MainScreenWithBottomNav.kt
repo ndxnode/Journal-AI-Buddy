@@ -42,13 +42,7 @@ fun MainScreenWithBottomNav(viewModel: JournalViewModel) {
                 SettingsScreen(settingsViewModel)
             }
             composable("addEntry") {
-                AddEntryScreen(
-                    onSave = { entry ->
-                        viewModel.insert(entry)
-                        navController.popBackStack()
-                    },
-                    onCancel = { navController.popBackStack() }
-                )
+                AddEntryScreen( viewModel, navController)
             }
         }
     }

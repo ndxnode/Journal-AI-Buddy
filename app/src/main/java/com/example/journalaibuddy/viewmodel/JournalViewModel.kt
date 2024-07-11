@@ -1,6 +1,7 @@
 package com.example.journalaibuddy.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -34,6 +35,7 @@ class JournalViewModel(application: Application) : AndroidViewModel(application)
     }
 
     fun insert(entry: JournalEntry) = viewModelScope.launch(Dispatchers.IO) {
+        Log.d("JournalViewModel", "Inserting entry: $entry")
         repository.insert(entry)
     }
 
