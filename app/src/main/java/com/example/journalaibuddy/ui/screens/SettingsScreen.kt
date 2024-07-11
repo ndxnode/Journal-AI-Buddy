@@ -36,7 +36,6 @@ fun SettingsScreen(viewModel: SettingsViewModel) {
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            Text("Hi, Name", style = MaterialTheme.typography.titleMedium)
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text("Enable Dark Theme")
                 Switch(

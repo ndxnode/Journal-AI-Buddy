@@ -23,7 +23,7 @@ fun MainScreen(viewModel: JournalViewModel) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Welcome, ${user?.displayName ?: "User"}") },
+                title = { Text("Welcome to your Journal") },
             )
         },
         floatingActionButtonPosition = FabPosition.End,
