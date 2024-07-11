@@ -9,6 +9,7 @@ import androidx.room.Update
 import com.example.journalaibuddy.model.JournalEntry
 import java.time.LocalDate
 
+@Dao
 interface JournalEntryDao {
     @Query("SELECT * FROM journal_entries")
     fun getAll(): LiveData<List<JournalEntry>> // livedata observes data changes
@@ -27,7 +28,6 @@ interface JournalEntryDao {
 
     @Delete
     fun delete(entry: JournalEntry): Int
-
 
     @Query("SELECT * FROM journal_entries WHERE date = :date")
     suspend fun findEntryByDate(date: LocalDate?): JournalEntry?

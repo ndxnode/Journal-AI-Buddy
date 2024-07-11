@@ -2,16 +2,15 @@ package com.example.journalaibuddy.dao
 
 import androidx.room.TypeConverter
 import java.time.LocalDate
-import java.time.ZoneId
 
 class LocalDateConverter {
     @TypeConverter
-    fun fromLocalDate(value: LocalDate): Long {
-        return value.atStartOfDay(ZoneId.systemDefault()).toEpochSecond()
+    fun fromLocalDate(date: LocalDate?): Long? {
+        return date?.toEpochDay()
     }
 
     @TypeConverter
-    fun toLocalDate(value: Long): LocalDate {
-        return LocalDate.ofEpochDay(value)
+    fun toLocalDate(epochDay: Long?): LocalDate? {
+        return epochDay?.let { LocalDate.ofEpochDay(it) }
     }
 }

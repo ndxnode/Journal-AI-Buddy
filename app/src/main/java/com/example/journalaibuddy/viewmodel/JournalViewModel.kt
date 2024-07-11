@@ -3,6 +3,7 @@ package com.example.journalaibuddy.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.room.Room
 import com.example.journalaibuddy.database.AppDatabase
@@ -13,21 +14,20 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.temporal.ChronoUnit
 
 class JournalViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: JournalRepository
     val allEntries: LiveData<List<JournalEntry>>
 
+    private val _filteredEntries = MutableLiveData<List<JournalEntry>>()
+    val filteredEntries: LiveData<List<JournalEntry>> get() = _filteredEntries
+
     private val _selectedEntry = MutableStateFlow<JournalEntry?>(null)
     val selectedEntry: StateFlow<JournalEntry?> = _selectedEntry.asStateFlow()
 
     init {
-        val db = Room.databaseBuilder(
-            application.applicationContext,
-            AppDatabase::class.java,
-            "journal_database"
-        ).build()
-
+        val db = AppDatabase.getDatabase(application)
         val journalEntryDao = db.journalEntryDao()
         repository = JournalRepository(journalEntryDao)
         allEntries = repository.allEntries
@@ -59,6 +59,20 @@ class JournalViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
+    fun filterEntries(filter: String) {
+        val entries = allEntries.value ?: return
+        val filteredList = when (filter) {
+            "This Week" -> entries.filter { it.date.isAfter(LocalDate.now().minus(7, ChronoUnit.DAYS)) }
+            "Last Week" -> entries.filter {
+                val lastWeekStart = LocalDate.now().minus(14, ChronoUnit.DAYS)
+                val lastWeekEnd = LocalDate.now().minus(7, ChronoUnit.DAYS)
+                it.date.isAfter(lastWeekStart) && it.date.isBefore(lastWeekEnd)
+            }
+            "Bookmarked" -> entries.filter { it.isBookmarked }
+            else -> entries
+        }
+        _filteredEntries.value = filteredList
+    }
 
 
 }

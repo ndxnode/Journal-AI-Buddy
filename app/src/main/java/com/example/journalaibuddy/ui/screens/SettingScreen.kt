@@ -1,33 +1,15 @@
 package com.example.journalaibuddy.ui.screens
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Switch
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.journalaibuddy.viewmodel.SettingsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,14 +21,15 @@ fun SettingsScreen(viewModel: SettingsViewModel) {
         topBar = {
             TopAppBar(title = { Text("Settings") })
         }
-    ) {
+    ) { innerPadding ->
         Column(
-            modifier = Modifier.fillMaxSize().padding(16.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             Text("Hi, Name", style = MaterialTheme.typography.titleMedium)
-            // get name from firebase
-
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text("Enable Dark Theme")
                 Switch(
@@ -71,18 +54,16 @@ fun SettingsScreen(viewModel: SettingsViewModel) {
 
             Button(
                 onClick = { viewModel.enableAppLock() },
-                modifier = Modifier.fillMaxWidth(),
-                contentPadding = PaddingValues(16.dp)
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Icon(Icons.Filled.Lock, contentDescription = "Lock App")
                 Spacer(Modifier.width(8.dp))
-                Text("Lock App with Biometrics/Passcode")
+                Text("Lock App with Passcode")
             }
 
             Button(
                 onClick = { viewModel.logOut() },
-                modifier = Modifier.fillMaxWidth(),
-                contentPadding = PaddingValues(16.dp)
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Icon(Icons.Filled.ExitToApp, contentDescription = "Log Out")
                 Spacer(Modifier.width(8.dp))

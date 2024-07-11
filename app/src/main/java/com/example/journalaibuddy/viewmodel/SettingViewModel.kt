@@ -1,13 +1,16 @@
 package com.example.journalaibuddy.viewmodel
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.journalaibuddy.repository.SettingRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class SettingViewModel(private val settingsRepository: SettingRepository) : ViewModel() {
+class SettingsViewModel(application: Application) : AndroidViewModel(application) {
+
+    private val settingsRepository: SettingRepository = SettingRepository(application)
 
     private val _themeSetting = MutableStateFlow(false)
     val themeSetting: StateFlow<Boolean> = _themeSetting
@@ -17,6 +20,7 @@ class SettingViewModel(private val settingsRepository: SettingRepository) : View
 
     private val _biometricEnabled = MutableStateFlow(false)
     val biometricEnabled: StateFlow<Boolean> = _biometricEnabled
+
 
     init {
         loadSettings()
@@ -44,7 +48,12 @@ class SettingViewModel(private val settingsRepository: SettingRepository) : View
         settingsRepository.toggleNotifications(enabled)
     }
 
-    fun enableBiometric(enabled: Boolean) = viewModelScope.launch {
-        // Placeholder for biometric enabling logic
+    fun enableAppLock() {
+        settingsRepository.getBiometricSetting()
     }
+
+    fun logOut() {
+        TODO("Not yet implemented")
+    }
+
 }

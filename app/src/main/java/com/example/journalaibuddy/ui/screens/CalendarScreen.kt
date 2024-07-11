@@ -1,5 +1,5 @@
 package com.example.journalaibuddy.ui.screens
-/*
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -19,13 +19,11 @@ import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.TextStyle
 import java.util.*
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.collectAsState
 
 @Composable
 fun CalendarScreen(viewModel: JournalViewModel) {
     var currentMonth by remember { mutableStateOf(YearMonth.now()) }
-    var selectedDate by remember { mutableStateOf<LocalDate?>(null) }
+    val selectedDate = remember { mutableStateOf<LocalDate?>(null) }
 
     Column(modifier = Modifier.padding(16.dp)) {
         Row(
@@ -36,16 +34,18 @@ fun CalendarScreen(viewModel: JournalViewModel) {
             IconButton(onClick = { currentMonth = currentMonth.minusMonths(1) }) {
                 Icon(Icons.Default.ArrowBack, contentDescription = "Previous Month")
             }
-            Text("${currentMonth.month.getDisplayName(TextStyle.FULL, Locale.getDefault())} ${currentMonth.year}",
-                style = MaterialTheme.typography.bodyLarge)
+            Text(
+                "${currentMonth.month.getDisplayName(TextStyle.FULL, Locale.getDefault())} ${currentMonth.year}",
+                style = MaterialTheme.typography.bodyLarge
+            )
             IconButton(onClick = { currentMonth = currentMonth.plusMonths(1) }) {
                 Icon(Icons.Default.ArrowForward, contentDescription = "Next Month")
             }
         }
 
         CalendarDayGrid(currentMonth, selectedDate, viewModel)
-        selectedDate?.let {
-            JournalEntryDetails(it, viewModel)
+        selectedDate.value?.let {
+            JournalEntryDetails(viewModel)
         }
     }
 }
@@ -70,7 +70,7 @@ fun CalendarDayGrid(currentMonth: YearMonth, selectedDate: MutableState<LocalDat
 
 @Composable
 fun CalendarDay(date: LocalDate, selectedDate: MutableState<LocalDate?>, showEntryDetails: (LocalDate) -> Unit) {
-    var isSelected by remember { mutableStateOf(false) }
+    val isSelected = selectedDate.value == date
 
     Box(
         modifier = Modifier
@@ -78,7 +78,6 @@ fun CalendarDay(date: LocalDate, selectedDate: MutableState<LocalDate?>, showEnt
             .aspectRatio(1f)
             .background(if (isSelected) Color.Cyan else Color.Transparent)
             .clickable {
-                isSelected = true
                 selectedDate.value = date
                 showEntryDetails(date)
             },
@@ -103,6 +102,4 @@ fun JournalEntryDetails(viewModel: JournalViewModel) {
             Text("Content: ${journalEntry.content}", style = MaterialTheme.typography.bodySmall)
         }
     }
-
 }
-*/

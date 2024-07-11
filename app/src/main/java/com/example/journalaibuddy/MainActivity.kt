@@ -1,5 +1,6 @@
 package com.example.journalaibuddy
 
+import android.app.Application
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -19,9 +20,11 @@ import androidx.navigation.compose.rememberNavController
 import com.example.journalaibuddy.database.isFirstLaunch
 import com.example.journalaibuddy.database.setFirstLaunch
 import com.example.journalaibuddy.ui.screens.MainScreen
+import com.example.journalaibuddy.ui.screens.MainScreenWithBottomNav
 import com.example.journalaibuddy.ui.screens.WelcomeScreen
 import com.example.journalaibuddy.ui.screens.WelcomeViewModel
 import com.example.journalaibuddy.viewmodel.JournalViewModel
+import com.example.journalaibuddy.viewmodel.JournalViewModelFactory
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -60,8 +63,8 @@ fun AppNavigation() {
 
         }
         composable("main") {
-            val viewModel: JournalViewModel = viewModel()
-            MainScreen(viewModel)
+            val viewModel: JournalViewModel = viewModel(factory = JournalViewModelFactory(context.applicationContext as Application))
+            MainScreenWithBottomNav(viewModel)
         }
     }
 }
