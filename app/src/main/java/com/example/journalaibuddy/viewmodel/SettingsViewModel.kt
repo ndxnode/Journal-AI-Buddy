@@ -1,12 +1,18 @@
 package com.example.journalaibuddy.viewmodel
 
+import android.app.AlarmManager
 import android.app.Application
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.journalaibuddy.NotificationReceiver
 import com.example.journalaibuddy.repository.SettingRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.util.Calendar
 
 class SettingsViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -46,6 +52,22 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
 
     fun toggleNotifications(enabled: Boolean) = viewModelScope.launch {
         settingsRepository.toggleNotifications(enabled)
+    }
+
+    fun setReminder(time: Calendar) {
+        val alarmManager = getApplication<Application>().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(getApplication(), NotificationReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(getApplication(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, time.timeInMillis, pendingIntent)
+    }
+
+    fun cancelReminder() {
+        val alarmManager = getApplication<Application>().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(getApplication(), NotificationReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(getApplication(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        alarmManager.cancel(pendingIntent)
     }
 
     fun enableAppLock() {

@@ -35,7 +35,6 @@ fun MainScreenWithBottomNav(viewModel: JournalViewModel) {
             composable("calendar") { CalendarScreen(viewModel) }
             composable("settings") {
                 val context = LocalContext.current
-                // Explicitly specify the ViewModel class type
                 val settingsViewModel = viewModel<SettingsViewModel>(
                     factory = SettingsViewModelFactory(context.applicationContext as Application)
                 )
