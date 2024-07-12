@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -23,7 +24,7 @@ class SettingRepository(private val context: Context) {
         preferences[PreferencesKeys.BIOMETRIC_KEY] ?: false
     }
     fun logOut() {
-        // Logic for logging out
+        FirebaseAuth.getInstance().signOut()
 
     }
     suspend fun updateThemeSetting(isDark: Boolean) {

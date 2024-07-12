@@ -4,8 +4,6 @@ import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -18,15 +16,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.journalaibuddy.database.isFirstLaunch
 import com.example.journalaibuddy.database.setFirstLaunch
-import com.example.journalaibuddy.ui.screens.MainScreen
 import com.example.journalaibuddy.ui.screens.MainScreenWithBottomNav
 import com.example.journalaibuddy.ui.screens.WelcomeScreen
 import com.example.journalaibuddy.ui.screens.WelcomeViewModel
@@ -87,5 +82,6 @@ fun AppNavigation() {
             val viewModel: JournalViewModel = viewModel(factory = JournalViewModelFactory(context.applicationContext as Application))
             MainScreenWithBottomNav(viewModel)
         }
+
     }
 }

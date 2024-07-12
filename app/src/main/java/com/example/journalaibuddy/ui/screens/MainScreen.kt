@@ -16,6 +16,7 @@ import com.example.journalaibuddy.model.JournalEntry
 import com.example.journalaibuddy.viewmodel.JournalViewModel
 import com.google.firebase.auth.FirebaseAuth
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(viewModel: JournalViewModel, navController: NavController) {
@@ -39,11 +40,12 @@ fun MainScreen(viewModel: JournalViewModel, navController: NavController) {
         LazyColumn(
             modifier = Modifier.padding(paddingValues)
         ) {
-            items(journalEntries) { entry ->
-                JournalEntryCard(entry, viewModel)
+            items(journalEntries.size) { index ->
+                JournalEntryCard(journalEntries[index], viewModel)
             }
         }
     }
+
 }
 
 @Composable

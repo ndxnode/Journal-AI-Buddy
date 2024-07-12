@@ -39,7 +39,7 @@ fun MainScreenWithBottomNav(viewModel: JournalViewModel) {
                 val settingsViewModel = viewModel<SettingsViewModel>(
                     factory = SettingsViewModelFactory(context.applicationContext as Application)
                 )
-                SettingsScreen(settingsViewModel)
+                SettingsScreen(settingsViewModel, navController)
             }
             composable("addEntry") {
                 AddEntryScreen( viewModel, navController)

@@ -75,7 +75,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun logOut() {
-        TODO("Not yet implemented")
+        settingsRepository.logOut()
     }
 
 }

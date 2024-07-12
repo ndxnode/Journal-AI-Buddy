@@ -13,12 +13,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.journalaibuddy.viewmodel.SettingsViewModel
 import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsScreen(viewModel: SettingsViewModel) {
+fun SettingsScreen(viewModel: SettingsViewModel, navController: NavController) {
     var isDarkThemeEnabled by remember { mutableStateOf(false) }
     var areNotificationsEnabled by remember { mutableStateOf(false) }
     var selectedTime by remember { mutableStateOf(Calendar.getInstance().apply { set(Calendar.HOUR_OF_DAY, 22); set(Calendar.MINUTE, 0) }) }
@@ -82,7 +83,11 @@ fun SettingsScreen(viewModel: SettingsViewModel) {
             }
 
             Button(
-                onClick = { viewModel.logOut() },
+                onClick = {
+                    viewModel.logOut()
+                    navController.navigate("login") {
+                        popUpTo("main") { inclusive = true }
+                    } },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Icon(Icons.Filled.ExitToApp, contentDescription = "Log Out")
@@ -106,20 +111,3 @@ fun showTimePicker(context: Context, initialTime: Calendar, onTimeSelected: (Cal
     }, initialHour, initialMinute, true).show()
 }
 
-class SettingsViewModel {
-    fun toggleTheme(isDark: Boolean) {
-        // Toggle the theme setting
-    }
-
-    fun toggleNotifications(enabled: Boolean) {
-        // Toggle the notifications setting
-    }
-
-    fun enableAppLock() {
-        // Logic to enable app lock
-    }
-
-    fun logOut() {
-        // Logic for logging out
-    }
-}
